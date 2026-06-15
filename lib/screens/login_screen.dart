@@ -143,15 +143,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 12),
 
-              // Lupa Password
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {},
-                  child: const Text('Lupa Password?', style: TextStyle(color: Color(0xFF003366), fontWeight: FontWeight.w600, fontSize: 13)),
-                ),
-              ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
+
 
               // Login Button
               SizedBox(
@@ -171,17 +164,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 24),
 
-              // Bottom text
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Belum punya akun? ', style: TextStyle(color: Colors.grey[500], fontSize: 13)),
-                  GestureDetector(
-                    onTap: () {},
-                    child: const Text('Hubungi admin', style: TextStyle(color: Color(0xFF003366), fontWeight: FontWeight.bold, fontSize: 13, decoration: TextDecoration.underline)),
-                  ),
-                ],
-              ),
+              const SizedBox(height: 24),
+
             ],
           ),
         ),

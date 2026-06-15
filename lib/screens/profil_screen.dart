@@ -424,12 +424,20 @@ class _ProfilScreenState extends State<ProfilScreen> {
                     }
                     setState(() => isLoading = true);
                     
-                    // Call API Ubah Password (implementasi menyusul di backend)
-                    await Future.delayed(const Duration(seconds: 1)); // Simulasi
+                    // Call API Ubah Password
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    String userId = prefs.getString('user_id') ?? '';
+                    final api = ApiService();
+                    final response = await api.ubahPassword(userId, passwordLama.text, passwordBaru.text);
                     
                     if (mounted) {
+                      setState(() => isLoading = false);
                       Navigator.pop(ctx);
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Fungsi ubah password akan segera aktif'), backgroundColor: Colors.orange));
+                      if (response['success'] == true) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response['message']), backgroundColor: Colors.green));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response['message'] ?? 'Gagal ubah password'), backgroundColor: Colors.red));
+                      }
                     }
                   },
                   child: isLoading 

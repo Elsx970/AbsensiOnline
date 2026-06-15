@@ -124,4 +124,21 @@ class ApiService {
       return {'success': false, 'message': e.toString()};
     }
   }
+
+  Future<Map<String, dynamic>> ubahPassword(String userId, String passwordLama, String passwordBaru) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${Constants.baseUrl}/ubah_password.php'),
+        body: {
+          'user_id': userId,
+          'password_lama': passwordLama,
+          'password_baru': passwordBaru,
+        },
+      );
+      final data = json.decode(response.body);
+      return data;
+    } catch (e) {
+      return {'success': false, 'message': e.toString()};
+    }
+  }
 }
