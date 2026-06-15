@@ -91,4 +91,38 @@ class ApiService {
       return {'status': 'error', 'message': e.toString()};
     }
   }
+
+  Future<Map<String, dynamic>> getProfil(String userId) async {
+    try {
+      final response = await http.get(Uri.parse('${Constants.baseUrl}/profil.php?user_id=$userId'));
+      final data = json.decode(response.body);
+      return data;
+    } catch (e) {
+      return {'success': false, 'message': e.toString()};
+    }
+  }
+
+  Future<Map<String, dynamic>> updateProfil(String userId, String programStudi, String nomorTelpon, String emailMhs, File? foto) async {
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse('${Constants.baseUrl}/update_profil.php'));
+      request.fields['user_id'] = userId;
+      request.fields['program_studi'] = programStudi;
+      request.fields['nomor_telpon'] = nomorTelpon;
+      request.fields['email_mhs'] = emailMhs;
+      
+      if (foto != null) {
+        var pic = await http.MultipartFile.fromPath('foto_profile', foto.path);
+        request.files.add(pic);
+      }
+      
+      var response = await request.send();
+      var responseData = await response.stream.toBytes();
+      var responseString = String.fromCharCodes(responseData);
+      
+      final data = json.decode(responseString);
+      return data;
+    } catch (e) {
+      return {'success': false, 'message': e.toString()};
+    }
+  }
 }

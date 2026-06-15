@@ -88,14 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text('UNILA Attendance', style: TextStyle(fontSize: 13, color: Colors.white70, fontWeight: FontWeight.w600, letterSpacing: 1)),
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Icon(Icons.notifications_none_rounded, color: Colors.white, size: 20),
-                        ),
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -222,15 +214,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 Builder(builder: (context) {
                   var riwayatKelas = _riwayatHariIni.where((r) => r['lokasi_id'].toString() == kelas.id).toList();
                   if (riwayatKelas.isNotEmpty) {
-                    var r = riwayatKelas.first;
-                    bool sudahPulang = r['jam_pulang'] != null;
                     return Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Row(
                         children: [
-                          Icon(sudahPulang ? Icons.check_circle : Icons.login_rounded, size: 16, color: sudahPulang ? Colors.green : Colors.orange),
+                          const Icon(Icons.check_circle, size: 16, color: Colors.green),
                           const SizedBox(width: 6),
-                          Text(sudahPulang ? 'Selesai (Sudah Pulang)' : 'Sedang Kelas (Sudah Masuk)', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: sudahPulang ? Colors.green : Colors.orange)),
+                          const Text('Selesai (Sudah Absen)', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.green)),
                         ],
                       ),
                     );
@@ -314,7 +304,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void _showAbsenBottomSheet(LokasiModel kelas) {
     var riwayatKelas = _riwayatHariIni.where((r) => r['lokasi_id'].toString() == kelas.id).toList();
     bool sudahMasuk = riwayatKelas.isNotEmpty;
-    bool sudahPulang = sudahMasuk && riwayatKelas.first['jam_pulang'] != null;
 
     DateTime now = DateTime.now();
     bool isDiluarJam = false;
@@ -354,7 +343,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Text('Radius: ${kelas.radius} Meter', style: TextStyle(color: Colors.grey[500], fontSize: 13)),
               const SizedBox(height: 24),
               
-              if (sudahPulang)
+              if (sudahMasuk)
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(vertical: 14),
@@ -363,7 +352,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text('Anda sudah menyelesaikan presensi kelas ini', style: TextStyle(color: Colors.green, fontWeight: FontWeight.w600)),
                   ),
                 )
-              else if (!sudahMasuk && isDiluarJam)
+              else if (isDiluarJam)
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(vertical: 14),
@@ -373,46 +362,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 )
               else
-                Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 50,
-                        child: ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: sudahMasuk ? Colors.grey[400] : const Color(0xFF28A745),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                            elevation: 0,
-                          ),
-                          onPressed: sudahMasuk ? null : () {
-                            Navigator.pop(ctx);
-                            Navigator.push(context, MaterialPageRoute(builder: (_) => AbsenMapScreen(tipe: 'Masuk', lokasi: kelas)));
-                          },
-                          icon: Icon(sudahMasuk ? Icons.check : Icons.login_rounded, color: Colors.white, size: 20),
-                          label: Text(sudahMasuk ? 'Sudah Masuk' : 'Absen Masuk', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
-                        ),
-                      ),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF28A745),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      elevation: 0,
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: SizedBox(
-                        height: 50,
-                        child: ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: !sudahMasuk ? Colors.grey[400] : const Color(0xFFE67E22),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                            elevation: 0,
-                          ),
-                          onPressed: !sudahMasuk ? null : () {
-                            Navigator.pop(ctx);
-                            Navigator.push(context, MaterialPageRoute(builder: (_) => AbsenMapScreen(tipe: 'Pulang', lokasi: kelas)));
-                          },
-                          icon: const Icon(Icons.logout_rounded, color: Colors.white, size: 20),
-                          label: const Text('Absen Pulang', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
-                        ),
-                      ),
-                    ),
-                  ],
+                    onPressed: () {
+                      Navigator.pop(ctx);
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => AbsenMapScreen(tipe: 'Masuk', lokasi: kelas)));
+                    },
+                    icon: const Icon(Icons.login_rounded, color: Colors.white, size: 20),
+                    label: const Text('Absen', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                  ),
                 ),
               const SizedBox(height: 16),
             ],

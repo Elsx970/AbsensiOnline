@@ -54,11 +54,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF003366), Color(0xFF004080), Color(0xFF003366)],
-          ),
+          color: Colors.white,
         ),
         child: FadeTransition(
           opacity: _fadeAnim,
@@ -69,20 +65,20 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               children: [
                 const Spacer(flex: 3),
                 // Logo
-                Image.asset('assets/logo.jpg', height: 150, width: 150, fit: BoxFit.contain),
+                Image.asset('assets/logo.png', height: 150, width: 150, fit: BoxFit.contain),
                 const SizedBox(height: 30),
                 const Text(
                   'ABSENSI',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 4),
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Color(0xFF003366), letterSpacing: 4),
                 ),
                 const Text(
                   'UNIVERSITAS LAMPUNG',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 2),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF003366), letterSpacing: 2),
                 ),
                 const SizedBox(height: 12),
                 Text(
                   'Berbasis Lokasi dan Foto',
-                  style: TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.7), letterSpacing: 1),
+                  style: TextStyle(fontSize: 14, color: Color(0xFF003366).withOpacity(0.7), letterSpacing: 1),
                 ),
                 const Spacer(flex: 4),
                 // Bottom icon

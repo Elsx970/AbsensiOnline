@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   border: Border.all(color: const Color(0xFF003366).withOpacity(0.15), width: 3),
                 ),
                 child: ClipOval(
-                  child: Image.asset('assets/logo.jpg', height: 80, width: 80, fit: BoxFit.cover),
+                  child: Image.asset('assets/logo.png', height: 80, width: 80, fit: BoxFit.cover),
                 ),
               ),
               const SizedBox(height: 24),
