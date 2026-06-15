@@ -61,9 +61,8 @@ class ApiService {
     return _absen(userId, lokasiId, lat, lng, foto, 'masuk');
   }
 
-  Future<Map<String, dynamic>> absenPulang(String userId, String lokasiId, double lat, double lng, File foto) async {
-    return _absen(userId, lokasiId, lat, lng, foto, 'pulang');
-  }
+
+
 
   Future<Map<String, dynamic>> _absen(String userId, String lokasiId, double lat, double lng, File foto, String jenis) async {
     try {

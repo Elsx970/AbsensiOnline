@@ -51,9 +51,7 @@ class _AbsenConfirmScreenState extends State<AbsenConfirmScreen> {
     String userId = prefs.getString('user_id') ?? "";
 
     final api = ApiService();
-    var response = widget.tipe == 'Masuk'
-        ? await api.absenMasuk(userId, widget.lokasi.id, widget.latitude, widget.longitude, widget.foto)
-        : await api.absenPulang(userId, widget.lokasi.id, widget.latitude, widget.longitude, widget.foto);
+    var response = await api.absenMasuk(userId, widget.lokasi.id, widget.latitude, widget.longitude, widget.foto);
 
     setState(() { _isLoading = false; });
 
